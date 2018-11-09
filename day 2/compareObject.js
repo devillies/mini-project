@@ -6,16 +6,17 @@ let objectTwo = {
   name: 'corey',
   position: 'singer',
 };
-function compareObject(objectOne, objectTwo) {
-  let keyOne = Object.keys(objectOne);
-  let keyTwo = Object.keys(objectTwo);
+function compareObject(objOne, objTwo) {
+  let keyOne = Object.keys(objOne);
+  let keyTwo = Object.keys(objTwo);
   if (keyOne.length !== keyTwo.length) {
     return false;
   }
   for (let key of keyOne) {
-    if (objectOne[key] !== objectTwo[key]) {
+    if (objOne[key] !== objTwo[key]) {
       return false;
     }
   }
   return true;
 }
+console.log(compareObject(objectOne, objectTwo));
