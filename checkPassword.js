@@ -1,17 +1,37 @@
 // @flow
 function checkPassword(password) {
-  if (password.length < 12) {
-    return true;
-  }
-  for (let i of password) {
-    if (typeof i === 'number') {
-      if (i === i.toUpperCase()) {
+  function checkWord(words, min, max) {
+    let charCodeMin = min.charCodeAt(0);
+    let charCodeMax = max.charCodeAt(0);
+    for (let i = 0; i < words.length; i++) {
+      let charCode = words.charCodeAt(i);
+      if (charCode >= charCodeMin && charCode <= charCodeMax) {
         return true;
       }
     }
+    false;
   }
 
-  return false;
+  function checkNumber(number) {
+    for (let i = 0; i <= number.length; i++) {
+      if (!isNaN(number[i]) === true) {
+        return true;
+      }
+    }
+    false;
+  }
+
+  if (password.length <= 6) {
+    return {success: false, reason: 'need longer password'};
+  }
+  if (!checkWord(password, 'A', 'Z') || !checkWord(password, 'a', 'z')) {
+    return {success: false, reason: 'no uppercase in password'};
+  }
+  if (!checkNumber(password)) {
+    return {success: false, reason: 'no number in password'};
+  }
+  return {success: true, reason: 'password is OK'};
 }
-let inputPassword = 'Killah123';
-console.log(checkPassword(inputPassword));
+
+let {success, reason} = checkPassword('Killah123');
+console.log({success, reason});
