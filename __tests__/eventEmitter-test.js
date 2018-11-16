@@ -24,9 +24,11 @@ it('should do nothing for non-existant event', () => {
 it('should remove listener by id ', () => {
   let emitter = new EventEmitter();
   let counter = 0;
-  let subscribe = emitter.addListener('click_me', () => {
+  let id = emitter.addListener('click_me', () => {
     counter += 1;
   });
-  emitter.removeListener(subscribe.id);
+
+  emitter.removeListener(id);
+  emitter.emit('click_me');
   expect(counter).toEqual(0);
 });

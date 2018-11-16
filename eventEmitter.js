@@ -17,9 +17,8 @@ class EventEmitter {
       this.events.set(eventName, eventList);
     }
     eventList.add(eventListener);
-    return {
-      removeid: '123',
-    };
+    let eventId = {eventName, eventListener};
+    return eventId;
   }
   emit(eventName) {
     let eventList = this.events.get(eventName);
@@ -29,12 +28,11 @@ class EventEmitter {
       }
     }
   }
-  removeListener(eventName, id) {
+  removeListener(id) {
+    let {eventName, eventListener} = id;
     let eventList = this.events.get(eventName);
     if (eventList) {
-      if (id === '123') {
-        eventList.delete(eventListener);
-      }
+      eventList.delete(eventListener);
     }
   }
 }
