@@ -1,9 +1,6 @@
 let eventHandlers = {
-  crossList: (oldState) => {
-    console.log('clicked');
-   let eventHandlers = {
   crossList: (oldState, id) => {
-    console.log('oldState : ', oldState);
+    // console.log('oldState : ', oldState);
     let arrNewState = [];
     for (let todo of oldState.todoList) {
       if (todo.id === id) {
