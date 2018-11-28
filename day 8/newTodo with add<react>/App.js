@@ -29,7 +29,7 @@ function App(props: Object) {
     setState({...state, newList: evt.target.value});
   };
   //input new value for the {todoList}
-  let addTodo = () => {
+  let addTodo = (_event) => {
     let newValue = {
       id: Math.random().toString(),
       name: newList,
