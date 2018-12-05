@@ -33,8 +33,8 @@ class App extends Component<State> {
     );
     this.setState({todoList: newItem});
   };
-  addValue = (evt) => {
-    let newValue = evt.target.value;
+  addValue = (_event) => {
+    let newValue = _event.target.value;
     this.setState({newList: newValue});
   };
   addTodo = (_event) => {
@@ -59,8 +59,8 @@ class App extends Component<State> {
       ),
     });
   };
-  searchTodo = (event) => {
-    this.setState({searchValue: event.target.value});
+  searchTodo = (_event) => {
+    this.setState({searchValue: _event.target.value});
   };
 
   clearInput = () => {
