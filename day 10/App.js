@@ -1,143 +1,104 @@
 // @flow
 import React, {Component} from 'react';
 
-type Todo = {
-  id: string,
-  name: string,
-  isDone: boolean,
+type Contact = {
+  id: string;
+  name: string;
+  number: string;
 };
 
 type State = {
-  todoList: Array<Todo>,
-  searchValue: string,
-  todoIndex: number,
-  newList: string,
+  selectedContact: ?Contact;
+  contacts: Array<Contact>;
 };
 
-class App extends Component<State> {
+let contacts = [
+  {id: '1', name: 'Teagan', number: '082151666123'},
+  {id: '2', name: 'RB', number: '081571335541'},
+  {id: '3', name: 'Galu', number: '081555662778'},
+];
+let contactStyle = {
+  backgroundColor: 'purple',
+  fontFamily: 'arial',
+  color: 'white',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+};
+let selectedContactStyle = {
+  backgroundColor: 'blue',
+  fontFamily: 'arial',
+  color: 'white',
+  display: 'flex',
+  flex: 1,
+  flexDirection: 'column',
+  alignItems: 'center',
+};
+
+class ContactApp extends Component<{}, State> {
   state = {
-    todoList: [
-      {id: '1', name: 'buy oreos', isDone: false},
-      {id: '2', name: 'buy cheetos ', isDone: false},
-      {id: '3', name: 'buy soap', isDone: false},
-    ],
-    searchValue: '',
-    todoIndex: 0,
-
-    newList: '',
-  };
-
-  toggle = (id) => {
-    let newItem = this.state.todoList.map((item) =>
-      item.id === id ? {...item, isDone: !item.isDone} : item,
-    );
-    this.setState({todoList: newItem});
-  };
-  addValue = (_event) => {
-    let newValue = _event.target.value;
-    this.setState({newList: newValue});
-  };
-  addTodo = (_event) => {
-    if (this.state.newList.trim() === '') {
-      return;
-    }
-    let newTodo = {
-      id: Math.random().toString(),
-      name: this.state.newList,
-      isDone: false,
-    };
-    let newTodoList = [...this.state.todoList, newTodo];
-    this.setState({
-      todoList: newTodoList,
-      newList: '',
-    });
-  };
-  rmTodo = (_event) => {
-    this.setState({
-      todoList: this.state.todoList.filter((item) =>
-        item.isDone === true ? item === _event.target.value : item,
-      ),
-    });
-  };
-  searchTodo = (_event) => {
-    this.setState({searchValue: _event.target.value});
-  };
-
-  clearInput = () => {
-    this.setState({newList: ''});
+    contacts,
+    selectedContact: null,
   };
 
   render() {
-    let {searchValue, newList, todoList} = this.state;
-    let filteredList = todoList.filter((item) =>
-      item.name.includes(searchValue),
-    );
+    let {contacts, selectedContact} = this.state;
     return (
-      <div>
-        <input
-          value={searchValue}
-          placeholder="Search..."
-          onChange={this.searchTodo}
-        />
-        <h1> TODO LIST </h1>
-        <ul>
-          {filteredList.map((item, index) => this._renderTodo(item, index))}
-        </ul>
-        <input value={newList} type="text" onChange={this.addValue} />
-        <button onClick={this.clearInput}>Clear</button>
-        <div>
-          <button onClick={this.addTodo}> Save</button>
-          <button onClick={this.rmTodo}>Delete</button>
-          <p>Hint: use the "Delete"button to delete crossed list! </p>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+        }}
+      >
+        <div style={contactStyle}>
+          <h1> Contact List</h1>
+          <ul
+            style={{
+              fontSize: 28,
+            }}
+          >
+            {contacts.map((contact) => this.renderContact(contact))}
+          </ul>
+        </div>
+        <div style={selectedContactStyle}>
+          <h1> Contact Details</h1>
+          {selectedContact ? (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: 28,
+              }}
+            >
+              {selectedContact.number}
+            </div>
+          ) : null}
         </div>
       </div>
     );
   }
+  onContactClick = (selectedID: string) => {
+    // for (let contact of contacts) {
+    //   if (contact.id === selectedID) {
+    //     this.setState({
+    //       selectedContact: contact,
+    //     });
+    //   }
+    // }
+    contacts.map((contact) =>
+      contact.id === selectedID
+        ? this.setState({selectedContact: contact})
+        : null,
+    );
+  };
 
-  _renderTodo(item, index) {
-    const divStyle = {
-      backgroundColor: 'black',
-      color: 'white',
-    };
-    let itemLabel = item.isDone ? <s>{item.name}</s> : item.name;
-    let isSelected = index === this.state.todoIndex;
-    let style = isSelected ? divStyle : null;
+  renderContact(contact: Object) {
     return (
-      <li
-        key={item.id}
-        style={style}
-        isSelected={isSelected}
-        onClick={(_event) => this.toggle(item.id)}
-      >
-        {itemLabel}
+      <li key={contact.id} onClick={(event) => this.onContactClick(contact.id)}>
+        {contact.name}
       </li>
     );
   }
-  componentDidMount() {
-    document.addEventListener('keydown', this._onKeyDown);
-  }
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this._onKeyDown);
-  }
-  _onKeyDown = (event) => {
-    let {todoList, todoIndex} = this.state;
-    let index = todoIndex;
-    let listIndex = todoList.length - 1;
-    let newIndex = index;
-    if (event.key === 'ArrowUp') {
-      newIndex = index === 0 ? index : index - 1;
-    }
-    if (event.key === 'ArrowDown') {
-      newIndex = index === listIndex ? index : index + 1;
-    }
-    if (newIndex !== index) {
-      this.setState({todoIndex: newIndex});
-    }
-    if (event.key === ' ' && document.activeElement === document.body) {
-      let selectedList = todoList[index];
-      this.toggle(selectedList.id);
-    }
-  };
 }
 
-export default App;
+export default ContactApp;

@@ -5,4 +5,6 @@ import App from './App';
 
 let app = document.getElementById('app');
 
-ReactDOM.render(<App />, app);
+if (app) {
+  ReactDOM.render(<App />, app);
+}
