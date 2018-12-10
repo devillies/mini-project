@@ -43,9 +43,9 @@ class RadioItem extends Component {
               <div style={{height: 10}} />
               <input name={context.myFavColor} type="radio" />
               <span>{context.myFavColor.red}</span>
-              <input name={context} type="radio" />
+              <input name={context.myFavColor} type="radio" />
               <span>{context.myFavColor.blue}</span>
-              <input name={context} type="radio" />
+              <input name={context.myFavColor} type="radio" />
               <span>{context.myFavColor.green}</span>
               <div style={{height: 20}} />
               <span style={{fontSize: 20}}> My Favourite Sport: </span>
