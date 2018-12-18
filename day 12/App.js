@@ -2,7 +2,7 @@ import React from 'react';
 function getApiUrl(onSuccess, onFail) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      let response = fetch('https://api.github.com/orgs/adobe/repos');
+      let response = fetch('https://api.github.com/orgs/citra-emu/repos');
       response ? resolve(response) : reject('error');
     }, 1000);
   });
