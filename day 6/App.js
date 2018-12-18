@@ -24,9 +24,22 @@ class App extends Component<{}, State> {
   render() {
     let {todoList, newInput} = this.state;
     return (
-      <div>
-        <h1>Todo List</h1>
-        <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+        }}
+      >
+        <div
+          style={{
+            backgroundColor: 'green',
+            color: 'white',
+            display: 'flex',
+            justifyContent: 'flex-start',
+            flexFlow: 'column',
+          }}
+        >
+          <h1>Todo List</h1>
           <ul>
             {todoList.map((content) =>
               content.isDone ? null : this._renderTodo(content),
@@ -43,7 +56,15 @@ class App extends Component<{}, State> {
             Save
           </button>
         </div>
-        <div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignContent: 'flex-end',
+            backgroundColor: 'red',
+            color: 'white',
+          }}
+        >
           <h1>Selected List</h1>
           {todoList ? (
             <ul>
