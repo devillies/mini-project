@@ -9,11 +9,7 @@ getApiUrl()
   .then((response) => {
     let answer = response.json();
     answer
-      .then((jsonData) => {
-        console.log(jsonData);
-        let {id} = jsonData;
-        console.log(id);
-      })
+      .then((item) => item.map((elm) => console.log(elm.name)))
       .catch((error) => console.log('cannot receive JSON'));
   })
   .catch((err) => console.log('there was an error: ' + err));
