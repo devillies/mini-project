@@ -1,6 +1,15 @@
 import React from "react";
-import { StyleSheet, Image, View, Text, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Image,
+  View,
+  Text,
+  TextInput,
+  ScrollView
+} from "react-native";
 import { blue } from "ansi-colors";
+
+import Mata from "../assets/images/tool-wallpapers-30589-6887446.jpg";
 
 export default class App extends React.Component {
   state = {
@@ -10,20 +19,26 @@ export default class App extends React.Component {
 
   render() {
     let { value } = this.state;
-    let pic = {
-      url:
-        "https://lh3.googleusercontent.com/rlU_KV1eeCs_bOPdWZ7JnJXB64TpS-gw7OOsYpd2KSvnMWBT7AIy4XHFvryYotQnEWpbTq_h5OArQPSTQOFzpXYrOT_fgxN9_9LmEzSDWTsDruUW9DojBw9qN46WXVZ1tBC0aDrNXoTDWPym2i8T5KPUTRUXNxApDofEY5dxMFHXjrvPzZIsMOL03rMZ0tRRNbPmczW01yJx_sMOuoJkuknLajgm1ntOzBp3T1rRhOdsOd3oEWYZrRrsFJr0vsF3AFLwguWKqzJcV2ALRxS-EYJH4i608-7pEgX-MFmmnnxFb7ViJAYiWwOLeHjl_-ZB0JdnGgB0Sv-abzrFxkJszKqVod0J3QUjrDIZxrUuA2543jdU3CLbS86KMpxB0BMdLKMgRNhVTCB4gaoshli0PhX0KU4wR86X4IZoBZ65PDn1cSPfgjF54CM2nzSZtNUDZKTaQJmthkHgid0yyXiwROUO-FDcAM_XDdwhwQmMh1hE5Gy7ekmpoJOWKh7mE3kgrTDy4FNDaeVzIlMZEtMdfompNO6dNJrWaMsPmvuSeYSHUwRXvCl86DB4US5IP3iCSB4jKse30ErIZy6hwI1MyGLgGkJYd0RYv_FH85V5-YpwST_w8r0FCidQ85zlny7YHxikTV45iRvowWubhg7WYmZG=w1450-h1076-no"
+    let pictProps = {
+      source: {
+        uri:
+          "https://media.tenor.com/images/a3cb77cffb334fedcf342d54716a2b56/tenor.gif"
+      },
+      defaultSource: { Mata }
     };
     return (
       <View style={styles.container}>
-        <Image source={pic} style={[styles.image, styles.borderRadius]} />
+        <Image {...pictProps} style={[styles.image, styles.borderRadius]} />
+        <Text style={styles.name}>It's A Trap</Text>
         <TextInput
           style={[styles.input, styles.borderRadius]}
           value={value}
           onChangeText={this._onChange}
-          placeholder="i see dead people"
+          placeholder="update your status"
         />
-        <Text style={styles.text}>{value}</Text>
+        <View style={styles.textbox}>
+          <Text style={styles.text}>{value}</Text>
+        </View>
       </View>
     );
   }
@@ -46,7 +61,7 @@ let styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    width: 200,
+    width: 300,
     borderWidth: 1,
     borderColor: "blue",
     marginTop: 30,
@@ -54,8 +69,21 @@ let styles = StyleSheet.create({
     paddingHorizontal: 15
   },
   text: {
+    paddingHorizontal: 10,
+    marginTop: 15,
     color: "black",
     fontSize: 20
+  },
+  name: {
+    marginTop: 20,
+    fontSize: 30,
+    color: "black"
+  },
+  textbox: {
+    alignSelf: "stretch",
+    height: 100,
+    margin: 15,
+    borderWidth: 1
   }
 });
 // AppRegistry.registerComponent("reactProject", () => App);
