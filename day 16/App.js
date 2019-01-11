@@ -5,20 +5,43 @@ import {
   View,
   Text,
   TextInput,
-  ScrollView
+  ScrollView,
+  TouchableWithoutFeedback
 } from "react-native";
-import { blue } from "ansi-colors";
 
 import Mata from "../assets/images/tool-wallpapers-30589-6887446.jpg";
-
 export default class App extends React.Component {
   state = {
-    value: ""
+    value: "",
+    images: []
   };
+  async _fetching() {
+    let url = `https://api.imgur.com/3/gallery/search/?q=${this.state.value}`;
+    let res = await fetch(url, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "Application/json",
+        Authorization: "Client-ID 58c3cf18cbe8561"
+      }
+    });
+    let data = await res.json();
+    let linkList = [];
+    for (let image of data.data) {
+      linkList.push(image.link);
+    }
+    console.log(linkList);
+    this.setState({ images: linkList });
+  }
+  componentDidMount() {
+    this._fetching();
+  }
+
   _onChange = text => this.setState({ value: text });
+  _onPress = () => this._fetching();
 
   render() {
-    let { value } = this.state;
+    let { value, images } = this.state;
     let pictProps = {
       source: {
         uri:
@@ -29,16 +52,29 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Image {...pictProps} style={[styles.image, styles.borderRadius]} />
-        <Text style={styles.name}>It's A Trap</Text>
+        <Text style={styles.name}>Search For Memes</Text>
         <TextInput
           style={[styles.input, styles.borderRadius]}
           value={value}
           onChangeText={this._onChange}
-          placeholder="update your status"
+          placeholder="choose a project"
         />
-        <View style={styles.textbox}>
-          <Text style={styles.text}>{value}</Text>
-        </View>
+        <TouchableWithoutFeedback onPress={this._onPress}>
+          <View style={[styles.press, styles.borderRadius]}>
+            <Text style={styles.pressText}>Tap This</Text>
+          </View>
+        </TouchableWithoutFeedback>
+        <ScrollView style={styles.textbox}>
+          {images.map((url, index) => {
+            return (
+              <Image
+                key={index}
+                style={styles.searchedImage}
+                source={{ uri: url }}
+              />
+            );
+          })}
+        </ScrollView>
       </View>
     );
   }
@@ -50,8 +86,7 @@ let styles = StyleSheet.create({
   },
   image: {
     width: 400,
-    height: 200,
-    borderRadius: 3
+    height: 200
   },
   container: {
     flex: 1,
@@ -80,10 +115,26 @@ let styles = StyleSheet.create({
     color: "black"
   },
   textbox: {
+    flex: 1,
     alignSelf: "stretch",
     height: 100,
     margin: 15,
     borderWidth: 1
+  },
+  press: {
+    paddingHorizontal: 15,
+    marginTop: 20,
+    borderWidth: 3,
+    borderColor: "black",
+    backgroundColor: "blue"
+  },
+  pressText: {
+    fontSize: 40,
+    color: "white"
+  },
+  searchedImage: {
+    height: 50,
+    width: 50
   }
 });
 // AppRegistry.registerComponent("reactProject", () => App);
