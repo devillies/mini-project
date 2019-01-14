@@ -65,6 +65,7 @@ export default class SearchPage extends React.Component {
           {images.map((url, index) => {
             return (
               <Image
+                resizeMode={'contain'}
                 key={index}
                 style={styles.searchedImage}
                 source={{ uri: url }}
@@ -126,5 +127,9 @@ let styles = StyleSheet.create({
   navigationText: {
     fontSize: 20,
     color: 'white'
+  },
+  searchedImage: {
+    height: 250,
+    width: 250
   }
 })
