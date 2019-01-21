@@ -12,34 +12,56 @@ class App extends React.Component<Props, State> {
     keyvalue: null
   };
   componentDidMount() {
+    //component mount
     document.addEventListener("keydown", this._onKeyDown);
     document.addEventListener("keyup", this._onKeyUp);
   }
   componentWillUnmount() {
+    //component unmount
     document.removeEventListener("keydown", this._onKeyDown);
     document.removeEventListener("keyup", this._onKeyUp);
   }
 
+  _setValue = (text: string, keyvalue: string) => {
+    //shortcut to set state
+    this.setState({
+      text,
+      keyvalue
+    });
+  };
+
   _onKeyDown = (event: { key: string }) => {
     // console.log(event.key);
     let { text } = this.state;
+    let { key } = event;
 
-    if (event.key && event.key !== "Backspace") {
-      let { key } = event;
-      this.setState({
-        text: text + key,
-        keyvalue: key
-      });
-    } else {
-      let { key } = event;
-      this.setState({
-        text: text.slice(0, -1),
-        keyvalue: key
-      });
+    switch (key) {
+      case "Backspace": {
+        this._setValue(text.slice(0, -1), key);
+        return;
+      }
+      default: {
+        this._setValue(text + key, key);
+        return;
+      }
     }
+    // if (event.key && event.key !== "Backspace") {
+    //   let { key } = event;
+    //   this.setState({
+    //     text: text + key,
+    //     keyvalue: key
+    //   });
+    // } else {
+    //   let { key } = event;
+    //   this.setState({
+    //     text: text.slice(0, -1),
+    //     keyvalue: key
+    //   });
+    // }
   };
 
   _onKeyUp = () => {
+    // null the value on keyup
     this.setState({ keyvalue: null });
   };
 
