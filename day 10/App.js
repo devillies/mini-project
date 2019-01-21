@@ -1,63 +1,65 @@
 // @flow
-import React, {Component} from 'react';
+import React, { Component } from "react";
 
 type Contact = {
-  id: string;
-  name: string;
-  number: string;
+  id: string,
+  name: string,
+  number: string
 };
 
 type State = {
-  selectedContact: ?Contact;
-  contacts: Array<Contact>;
+  selectedContact: ?Contact,
+  contacts: Array<Contact>
 };
 
-let contacts = [
-  {id: '1', name: 'Teagan', number: '082151666123'},
-  {id: '2', name: 'RB', number: '081571335541'},
-  {id: '3', name: 'Galu', number: '081555662778'},
-];
 let contactStyle = {
-  backgroundColor: 'purple',
-  fontFamily: 'arial',
-  color: 'white',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'flex-start',
+  backgroundColor: "purple",
+  fontFamily: "arial",
+  color: "white",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "flex-start"
 };
 let selectedContactStyle = {
-  backgroundColor: 'blue',
-  fontFamily: 'arial',
-  color: 'white',
-  display: 'flex',
+  backgroundColor: "blue",
+  fontFamily: "arial",
+  color: "white",
+  display: "flex",
   flex: 1,
-  flexDirection: 'column',
-  alignItems: 'center',
+  flexDirection: "column",
+  alignItems: "center"
 };
 
 class ContactApp extends Component<{}, State> {
   state = {
-    contacts,
-    selectedContact: null,
+    todoList: [
+      { id: "1", name: "buy oreos", isDone: false },
+      { id: "2", name: "buy cheetos ", isDone: false },
+      { id: "3", name: "buy soap", isDone: false }
+    ],
+    searchValue: "",
+    todoIndex: 0,
+
+    newList: ""
   };
 
   render() {
-    let {contacts, selectedContact} = this.state;
+    let { contacts, selectedContact } = this.state;
     return (
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'row',
+          display: "flex",
+          flexDirection: "row"
         }}
       >
         <div style={contactStyle}>
           <h1> Contact List</h1>
           <ul
             style={{
-              fontSize: 28,
+              fontSize: 28
             }}
           >
-            {contacts.map((contact) => this.renderContact(contact))}
+            {contacts.map(contact => this.renderContact(contact))}
           </ul>
         </div>
         <div style={selectedContactStyle}>
@@ -65,9 +67,9 @@ class ContactApp extends Component<{}, State> {
           {selectedContact ? (
             <div
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                fontSize: 28,
+                display: "flex",
+                alignItems: "center",
+                fontSize: 28
               }}
             >
               {selectedContact.number}
@@ -85,16 +87,16 @@ class ContactApp extends Component<{}, State> {
     //     });
     //   }
     // }
-    contacts.map((contact) =>
+    contacts.map(contact =>
       contact.id === selectedID
-        ? this.setState({selectedContact: contact})
-        : null,
+        ? this.setState({ selectedContact: contact })
+        : null
     );
   };
 
   renderContact(contact: Object) {
     return (
-      <li key={contact.id} onClick={(event) => this.onContactClick(contact.id)}>
+      <li key={contact.id} onClick={event => this.onContactClick(contact.id)}>
         {contact.name}
       </li>
     );
